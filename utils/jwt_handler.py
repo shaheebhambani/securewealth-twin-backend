@@ -1,28 +1,25 @@
-import os
-import jwt
-
+from jose import jwt
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 
-load_dotenv()
+SECRET_KEY = "securewealth_super_secret_key"
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = "HS256"
 
-ALGORITHM = os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = 1440
 
 
 def create_access_token(data: dict):
 
-    payload = data.copy()
+    to_encode = data.copy()
 
-    expire = datetime.utcnow() + timedelta(days=1)
+    expire = datetime.utcnow() + timedelta(
+        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+    )
 
-    payload.update({"exp": expire})
+    to_encode.update({"exp": expire})
 
-    token = jwt.encode(
-        payload,
+    return jwt.encode(
+        to_encode,
         SECRET_KEY,
         algorithm=ALGORITHM
     )
-
-    return token

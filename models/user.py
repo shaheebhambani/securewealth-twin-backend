@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
-from datetime import datetime
+from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.orm import relationship
 
 from database import Base
 
@@ -15,12 +15,13 @@ class User(Base):
 
     password = Column(String, nullable=False)
 
-    phone = Column(String, nullable=True)
+    phone = Column(String, unique=True)
 
-    monthly_income = Column(Float, default=0)
+    role = Column(String, default="user")
 
-    monthly_savings = Column(Float, default=0)
+    is_verified = Column(Boolean, default=False)
 
-    risk_profile = Column(String, default="Moderate")
-
-    created_at = Column(DateTime, default=datetime.utcnow)
+    accounts = relationship(
+        "Account",
+        back_populates="owner"
+    )

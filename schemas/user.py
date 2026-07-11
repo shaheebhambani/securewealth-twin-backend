@@ -1,16 +1,14 @@
 from pydantic import BaseModel, EmailStr
 
 
-class UserSignup(BaseModel):
+class RegisterUser(BaseModel):
     full_name: str
     email: EmailStr
     password: str
     phone: str
-    monthly_income: float
-    monthly_savings: float
 
 
-class UserLogin(BaseModel):
+class LoginUser(BaseModel):
     email: EmailStr
     password: str
 
@@ -20,9 +18,7 @@ class UserResponse(BaseModel):
     full_name: str
     email: EmailStr
     phone: str
-    monthly_income: float
-    monthly_savings: float
-    risk_profile: str
+    role: str
 
     class Config:
         from_attributes = True
